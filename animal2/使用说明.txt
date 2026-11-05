@@ -1,8 +1,0 @@
-《农场动物（二）》统一浏览器朗读版
-
-1. 双击 index.html 打开网页。
-2. 所有中文名称、句子、题目和答题反馈，使用与「听说明」按钮相同的浏览器中文语音合成；不再需要中文朗读 MP3。
-3. 真实动物叫声仍为独立音频：assets/audio/animal-sounds/pig.mp3、cow.mp3、sheep.mp3、horse.mp3（请自行放入）。
-4. 小马跑和小兔跳视频分别放在 assets/video/horse-running.mp4 和 rabbit-jumping.mp4。
-5. 浏览器语音音色由设备、浏览器及语音包决定；推荐使用此前试听的同一台电脑和浏览器。
-6. 图片继续独立放在 assets/images/。
