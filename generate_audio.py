@@ -1,8 +1,7 @@
 import os
 import asyncio
-import traceback
+import re
 from pathlib import Path
-from bs4 import BeautifulSoup
 import edge_tts
 
 VOICE = "zh-CN-XiaoxiaoNeural"
@@ -17,23 +16,22 @@ async def process_module(module_dir: Path):
     audio_dir = module_dir / "audio"
     audio_dir.mkdir(exist_ok=True)
 
-    try:
-        with open(html_file, "r", encoding="utf-8") as f:
-            soup = BeautifulSoup(f.read(), "html.parser")
-    except Exception as e:
-        print(f"  ❌ 读取 HTML 失败: {e}")
-        return
+    # 1. 直接读取整个 HTML 文件的文本
+    with open(html_file, "r", encoding="utf-8") as f:
+        html_content = f.read()
 
-    for script in soup(["script", "style"]):
-        script.decompose()
+    # 2. 使用正则表达式，暴力提取所有包含中文的片段（长度大于1的）
+    # 这会把 HTML 正文、JS 数组里的词全部抓出来
+    raw_texts = re.findall(r'[\u4e00-\u9fa5，。？！、：；a-zA-Z0-9]{2,}', html_content)
+    
+    # 去重并过滤掉纯英文代码
+    unique_texts = []
+    for t in raw_texts:
+        t = t.strip()
+        # 必须包含中文字符才生成
+        if re.search(r'[\u4e00-\u9fa5]', t) and t not in unique_texts:
+            unique_texts.append(t)
 
-    texts = []
-    for tag in soup.find_all(['p', 'h1', 'h2', 'h3', 'div']):
-        text = tag.get_text(strip=True)
-        if text and len(text) > 3:
-            texts.append(text)
-
-    unique_texts = list(dict.fromkeys(texts))
     manifest = {}
     
     # 每次重新生成前，先清空旧的音频（防止静音陷阱）
@@ -44,52 +42,47 @@ async def process_module(module_dir: Path):
             pass
 
     for i, text in enumerate(unique_texts):
+        # 控制文件名长度，防止名字过长报错
         filename = f"line_{i}.mp3"
         output_path = audio_dir / filename
         manifest[text] = filename
 
         print(f"  🔊 生成中: {filename} -> {text[:15]}...")
         try:
+            # 设置语速
             communicate = edge_tts.Communicate(text, VOICE, rate="-10%")
-            await communicate.save(output_path)
+            await asyncio.wait_for(communicate.save(output_path), timeout=15.0)
             
             if output_path.stat().st_size < 1000:
-                print(f"  ⚠️ 警告: {filename} 文件过小，可能生成失败！")
+                print(f"  ⚠️ 警告: {filename} 文件过小！")
                 
         except Exception as e:
             print(f"  ❌ 单句失败: {text[:10]}... 错误: {e}")
-            # 继续下一句，不中断整个模块
 
-    try:
-        manifest_path = audio_dir / "tts-manifest.js"
-        js_content = f"window.TTS_AUDIO = {repr(manifest)};"
-        with open(manifest_path, "w", encoding="utf-8") as f:
-            f.write(js_content)
-        print(f"  ✅ 已更新 {manifest_path.name}")
-    except Exception as e:
-        print(f"  ❌ 写入 manifest 失败: {e}")
+    # 生成 manifest
+    manifest_path = audio_dir / "tts-manifest.js"
+    js_content = f"window.TTS_AUDIO = {repr(manifest)};"
+    with open(manifest_path, "w", encoding="utf-8") as f:
+        f.write(js_content)
+    print(f"  ✅ 已更新 {manifest_path.name}")
 
 async def main():
     root_dir = Path(".")
-    
     tasks = []
     for item in root_dir.iterdir():
-        if item.is_dir() and not item.name.startswith('.') and item.name not in ['audio', 'assets', 'js']:
+        if item.is_dir() and not item.name.startswith('.') and item.name not in ['audio', 'assets', 'js', '10transport']:
             tasks.append(process_module(item))
+            
+    # 特别处理 10transport (以防它被上面的过滤规则漏掉，这里显式加上)
+    tasks.append(process_module(Path("10transport")))
             
     if not tasks:
         print("未找到任何包含 index.html 的模块目录。")
         return
 
     print(f"找到 {len(tasks)} 个模块，开始自动生成语音...")
-    # 增加 return_exceptions=True，防止单个模块异常导致全局崩溃
     await asyncio.gather(*tasks, return_exceptions=True)
     print("\n🎉 所有模块语音生成任务完成！")
 
 if __name__ == "__main__":
-    try:
-        asyncio.run(main())
-    except Exception as e:
-        print("🚨 发生全局异常:")
-        traceback.print_exc()
-        exit(1)
+    asyncio.run(main())
