@@ -1,1 +1,0 @@
-请在上一级运行 python build_tts.py 生成所有 MP3。
