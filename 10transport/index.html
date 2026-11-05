@@ -27,7 +27,7 @@
 </div>
 <footer>小朋友可以自由选择栏目，不需要按天完成。听不懂时，爸爸妈妈可以陪着一起指一指、说一说。</footer>
 
-<!-- 注意这里：路径必须带有 audio/ 前缀 -->
+<!-- 请确保你的 GitHub 仓库中，这个文件真实存在于 audio/ 目录下 -->
 <script src="audio/tts-manifest.js"></script>
 <script>
 'use strict';
@@ -39,90 +39,112 @@ const btn=(label,call,cls='')=>'<button class="'+cls+'" type="button" onclick="'
 const tile=(label,file,call)=>'<button class="tile" type="button" onclick="'+call+'">'+img(file)+'<strong>'+label+'</strong></button>';
 const heading=(title,desc)=>'<h2>'+title+'</h2><p class="hint">'+desc+'</p>';
 const pageControls=(length)=>'<div class="controls">'+btn('← 上一个','prev()')+'<span class="count">'+(idx+1)+' / '+length+'</span>'+btn('下一个 →','next()')+'</div>';
-let tab='names',idx=0,lastText='',audio=null,selected=null,round=0,quiz=[],correct=0,mode='';
+let tab='names',idx=0,lastText='',selected=null,round=0,quiz=[],correct=0,mode='';
 const app=document.getElementById('app'),nav=document.getElementById('nav'),status=document.getElementById('audioStatus');
 
-// ======== 核心发音逻辑（重写防叠音版） ========
+// ======== 终极防叠音 + 智能变量识别 引擎 ========
+let currentAudio = null;
+let currentUtterance = null;
+
+function stopAllAudio() {
+    // 1. 彻底干掉 MP3
+    if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.src = ""; // 强制释放资源
+        currentAudio.load();
+        currentAudio = null;
+    }
+    // 2. 暴力清除系统音（针对手机端优化）
+    if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        if (currentUtterance) {
+            currentUtterance = null;
+        }
+    }
+}
+
 function say(t){
     if (!t) return;
     lastText = t; 
     
-    // 1. 强制停止浏览器自带的系统音（防止双音重叠）
-    if ('speechSynthesis' in window) {
-        speechSynthesis.cancel();
-    }
-    // 2. 强制停止正在播放的 MP3
-    if(audio){
-        audio.pause();
-        audio.currentTime = 0;
-        audio = null;
-    } 
+    // 每次播放前，先清空一切正在响的东西
+    stopAllAudio();
     
-    // 3. 智能查找：先找完全匹配，找不到尝试去除标点匹配
-    let path = (window.TTS_AUDIO||{})[t];
+    // 强制兼容两个变量名（防止你的生成脚本用的是 TTS_MANIFEST 或 TTS_AUDIO）
+    const manifest = window.TTS_AUDIO || window.TTS_MANIFEST || {};
+    let path = manifest[t];
     
+    // 智能容错：去掉标点再找一次
     if (!path) {
         let cleanText = t.replace(/[。，？、！\s]/g, '');
-        for (let key in window.TTS_AUDIO) {
+        for (let key in manifest) {
             if (key.replace(/[。，？、！\s]/g, '') === cleanText) {
-                path = window.TTS_AUDIO[key];
+                path = manifest[key];
                 break;
             }
         }
     }
     
-    // 4. 执行播放
     if(path){
         status.textContent='';
-        audio = new Audio('audio/' + path); 
-        audio.play().catch(err => {
-            console.error('MP3播放失败:', err);
-            status.textContent='音频加载失败，切换系统配音。';
+        currentAudio = new Audio('audio/' + path); 
+        currentAudio.play().catch(err => {
+            console.warn('MP3被浏览器拦截或加载失败:', err);
             fallbackTTS(t); 
         });
     } else {
-        // 找不到 AI 音频，直接降级
+        // 没找到 MP3，走系统音
         status.textContent='';
-        console.log("缺失 AI 音频，降级系统音:", t); 
+        console.log("❌ 缺失 AI 音频，降级系统音:", t); 
         fallbackTTS(t);
     }
 }
 
-// 降级使用的系统配音
 function fallbackTTS(t) {
     if (!('speechSynthesis' in window)) {
         status.textContent = '这条语音尚未生成：' + t;
         return;
     }
-    speechSynthesis.cancel(); 
-    const u = new SpeechSynthesisUtterance(t);
-    u.lang = 'zh-CN';
-    u.rate = 0.85; 
-    speechSynthesis.speak(u);
+    // 延迟一点点播放系统音，防止和前面被强制 cancel 的声音打架（手机端必须加）
+    setTimeout(() => {
+        window.speechSynthesis.cancel(); 
+        const u = new SpeechSynthesisUtterance(t);
+        u.lang = 'zh-CN';
+        u.rate = 0.85; 
+        currentUtterance = u;
+        window.speechSynthesis.speak(u);
+    }, 50);
 }
 // ==============================================
 
-function showTab(id){tab=id;idx=0;selected=null;round=0;correct=0;nav.innerHTML=modules.map(([key,label])=>'<button type="button" class="'+(key===tab?'active':'')+'" onclick="showTab(\''+key+'\')">'+label+'</button>').join('');render();window.scrollTo({top:0,behavior:'smooth'})}
-function prev(){idx=Math.max(0,idx-1);selected=null;render()}
-function next(){let lengths={names:vehicles.length,ride:8,places:4,help:3,compare:3,sort:9,safety:2,like:5,games:2};idx=(idx+1)%(lengths[tab]||1);selected=null;render()}
-function feedback(ok,detail=''){document.getElementById('feedback').textContent=ok?'🌟 '+(detail||'答对啦，你真棒！'):'🌷 再试一次吧！';say(ok?'答对啦，你真棒！':'再试一次吧！')}
-function choose(answer,expected,detail=''){feedback(answer===expected,detail)}
-function render(){let h='';const v=vehicles[idx];
-if(tab==='names'){h=heading('认识交通工具','点图片听名称，再试着说一说。')+'<div class="center">'+btn('🔊 听名称',`say('${v[0]}')`,'pill primary')+img(v[1],'class="heroimg"')+'<div class="big">'+v[0]+'</div>'+btn('🔊 听一句话',`say('${v[2]==='骑'?'我骑':v[2]==='坐'?'我坐':'这是'}${v[0]}。')`,'pill')+'</div>'+pageControls(vehicles.length)}
-if(tab==='listen'){if(!quiz.length||round>=quiz.length){quiz=[...vehicles].sort(()=>Math.random()-.5).slice(0,8);round=0}let q=quiz[round],opts=[q,...vehicles.filter(x=>x!==q).sort(()=>Math.random()-.5).slice(0,3)].sort(()=>Math.random()-.5);h=heading('听一听，找一找','先点击喇叭，再找出听到的交通工具。')+'<div class="center">'+btn('🔊 听题目',`say('${q[0]}')`,'pill primary')+'</div><div class="grid">'+opts.map(x=>tile(x[0],x[1],`listenPick('${x[0]}','${q[0]}')`)).join('')+'</div><div class="feedback" id="feedback"></div><div class="controls"><span class="count">第 '+(round+1)+' / '+quiz.length+' 题</span>'+btn('换一题 →','listenNext()')+'</div>'}
-if(tab==='ride'){let items=vehicles.filter(x=>x[2]==='骑'||x[2]==='坐').slice(0,8),x=items[idx];h=heading('我骑什么？我坐什么？','看图片，先想一想，再选“坐”还是“骑”。')+img(x[1],'class="heroimg"')+'<div class="choice-row">'+btn('🚲 我骑',`ridePick('骑','${x[2]}','${x[0]}')`)+btn('🚗 我坐',`ridePick('坐','${x[2]}','${x[0]}')`)+'</div><div class="feedback" id="feedback"></div>'+pageControls(items.length)}
-if(tab==='places'){let places=[['学校','school.png','学校'],['超市','supermarket.png','超市'],['游乐场','park.png','游乐场'],['中国','china.png','中国']];let p=places[idx];h=heading('我们怎么去？','去不同的地方，可以选择不同的交通工具。没有唯一答案。')+img(p[1],'class="heroimg"')+'<div class="big center">去'+p[0]+'，你想怎么去？</div><div class="grid">'+vehicles.filter(x=>['自行车','小汽车','公交车','火车','飞机','船'].includes(x[0])).map(x=>tile(x[0],x[1],`placePick('${x[0]}','${p[2]}')`)).join('')+'</div><div class="feedback" id="feedback"></div>'+pageControls(places.length)}
-if(tab==='help'){let cases=[['小朋友迷路了，谁来帮忙？','help-lost.png','警车','警车来帮忙。'],['老爷爷摔倒了，谁来帮忙？','help-old.png','救护车','救护车来救人。'],['房子着火了，谁来帮忙？','help-fire.png','消防车','消防车来灭火。']];let q=cases[idx];h=heading('谁来帮忙？','听一听发生了什么，找一找哪辆车来帮忙。')+'<div class="center">'+btn('🔊 听情景',`say('${q[0]}')`,'pill primary')+'</div>'+img(q[1],'class="heroimg"')+'<div class="grid">'+vehicles.slice(-3).map(x=>tile(x[0],x[1],`helpPick('${x[0]}','${q[2]}','${q[3]}')`)).join('')+'</div><div class="feedback" id="feedback"></div>'+pageControls(3)}
-if(tab==='compare'){let c=[['谁大？谁小？','ref-car.jpg','ref-bus.jpg','公交车大，小汽车小。'],['谁长？谁短？','ref-car.jpg','ref-train.jpg','火车长，小汽车短。'],['谁大？谁小？','ref-boat.jpg','boat_small.png','大船大，小船小。']][idx];h=heading('比一比','看一看两张图片，说一说哪里不一样。')+'<div class="big center">'+c[0]+'</div><div class="two">'+img(c[1],'class="heroimg"')+img(c[2],'class="heroimg"')+'</div><div class="center">'+btn('🔊 听一听',`say('${c[3]}')`,'pill primary')+'</div>'+pageControls(3)}
-if(tab==='sort'){let x=vehicles.filter(v=>!['警车','救护车','消防车','出租车'].includes(v[0])).slice(0,9)[idx];let answer=['飞机','直升飞机'].includes(x[0])?'天上':x[0]==='船'?'水上':'地上';h=heading('天上 · 地上 · 水上','这是什么交通工具？它在哪里行驶？')+img(x[1],'class="heroimg"')+'<div class="choice-row">'+['地上','天上','水上'].map(y=>btn(y,`choose('${y}','${answer}')`)).join('')+'</div><div class="feedback" id="feedback"></div>'+pageControls(9)}
-if(tab==='safety'){let q=[['红色小人亮了，停下来，等一等。','红灯亮了，应该怎么办？',['停下来','马上走'],'停下来'],['绿色小人亮了，先看一看，确认安全再过马路。','绿灯亮了，应该怎么办？',['马上跑过去','先看一看，确认安全再走'],'先看一看，确认安全再走']][idx];h=heading('安全过马路','先看图，再听一听，选一选。')+'<img class="safety-visual" src="assets/safety-crossing.png" alt="红色行人灯等待，绿色行人灯确认安全后过马路">'+'<div class="center">'+btn('🔊 听一听',`say('${q[0]}')`,'pill primary')+'</div><div class="big center">'+q[1]+'</div><div class="choice-row">'+q[2].map(x=>btn(x,`choose('${x}','${q[3]}')`)).join('')+'</div><div class="feedback" id="feedback"></div>'+pageControls(2)}
-if(tab==='like'){let items=[['小汽车','ref-car.jpg',[['瓢虫','ladybug.png','小汽车像瓢虫。'],['苹果','apple.svg','小汽车像苹果。']]],['公交车','ref-bus.jpg',[['大箱子','box.png','公交车像一个大箱子。'],['大面包','bread.svg','公交车像大面包。']]],['火车','ref-train.jpg',[['毛毛虫','caterpillar.svg','火车像毛毛虫。'],['积木','blocks.svg','火车像积木。']]],['飞机','ref-plane.jpg',[['小鸟','bird.png','飞机像小鸟。'],['纸飞机','paper-plane.svg','飞机像纸飞机。']]],['小船','boat_small.png',[['香蕉','banana.png','小船像香蕉。'],['月亮','moon.svg','小船像月亮。']]]];let x=items[idx];h=heading('交通工具像什么？','先看看交通工具，再选一张你觉得像的图片。选好后听完整句子。')+img(x[1],'class="like-prompt"')+'<div class="big center">'+x[0]+'像什么？</div><div class="like-options">'+x[2].map(y=>'<button type="button" class="like-option" onclick="likePick(this,\''+y[2]+'\')">'+img(y[1])+'<span>'+y[0]+'</span></button>').join('')+'</div><div class="feedback" id="feedback"></div>'+pageControls(items.length)}
-if(tab==='games'){let games=[['交通工具大搜索','ref-find-vehicle.jpg','找一找，你看到了哪些交通工具？'],['哪里奇怪？','strange.png','哪里奇怪？']];let g=games[idx];h=heading(g[0],'仔细观察图片，指一指，说一说。')+'<div class="game-image-wrap">'+img(g[1],'class="game-large-image"')+'</div>'+'<div class="center">'+btn('🔊 听题目',`say('${g[2]}')`,'pill primary')+'</div>'+pageControls(2)}
-app.innerHTML=h}
+function showTab(id){stopAllAudio();tab=id;idx=0;selected=null;round=0;correct=0;nav.innerHTML=modules.map(([key,label])=>'<button type="button" class="'+(key===tab?'active':'')+'" onclick="showTab(\''+key+'\')">'+label+'</button>').join('');render();window.scrollTo({top:0,behavior:'smooth'})}
+function prev(){stopAllAudio();idx=Math.max(0,idx-1);selected=null;render()}
+function next(){stopAllAudio();let lengths={names:vehicles.length,ride:8,places:4,help:3,compare:3,sort:9,safety:2,like:5,games:2};idx=(idx+1)%(lengths[tab]||1);selected=null;render()}
 
-function likePick(el,t){document.querySelectorAll('.like-option').forEach(b=>b.classList.remove('selected'));el.classList.add('selected');document.getElementById('feedback').textContent='🌟 '+t;say(t)}
+function feedback(ok,detail=''){
+    document.getElementById('feedback').textContent=ok?'🌟 '+(detail||'答对啦，你真棒！'):'🌷 再试一次吧！';
+    say(ok?'答对啦，你真棒！':'再试一次吧！')
+}
+function choose(answer,expected,detail=''){feedback(answer===expected,detail)}
+
+function render(){
+    let h='';const v=vehicles[idx];
+    if(tab==='names'){h=heading('认识交通工具','点图片听名称，再试着说一说。')+'<div class="center">'+btn('🔊 听名称',`say('${v[0]}')`,'pill primary')+img(v[1],'class="heroimg"')+'<div class="big">'+v[0]+'</div>'+btn('🔊 听一句话',`say('${v[2]==='骑'?'我骑':v[2]==='坐'?'我坐':'这是'}${v[0]}。')`,'pill')+'</div>'+pageControls(vehicles.length)}
+    if(tab==='listen'){if(!quiz.length||round>=quiz.length){quiz=[...vehicles].sort(()=>Math.random()-.5).slice(0,8);round=0}let q=quiz[round],opts=[q,...vehicles.filter(x=>x!==q).sort(()=>Math.random()-.5).slice(0,3)].sort(()=>Math.random()-.5);h=heading('听一听，找一找','先点击喇叭，再找出听到的交通工具。')+'<div class="center">'+btn('🔊 听题目',`say('${q[0]}')`,'pill primary')+'</div><div class="grid">'+opts.map(x=>tile(x[0],x[1],`listenPick('${x[0]}','${q[0]}')`)).join('')+'</div><div class="feedback" id="feedback"></div><div class="controls"><span class="count">第 '+(round+1)+' / '+quiz.length+' 题</span>'+btn('换一题 →','listenNext()')+'</div>'}
+    if(tab==='ride'){let items=vehicles.filter(x=>x[2]==='骑'||x[2]==='坐').slice(0,8),x=items[idx];h=heading('我骑什么？我坐什么？','看图片，先想一想，再选“坐”还是“骑”。')+img(x[1],'class="heroimg"')+'<div class="choice-row">'+btn('🚲 我骑',`ridePick('骑','${x[2]}','${x[0]}')`)+btn('🚗 我坐',`ridePick('坐','${x[2]}','${x[0]}')`)+'</div><div class="feedback" id="feedback"></div>'+pageControls(items.length)}
+    if(tab==='places'){let places=[['学校','school.png','学校'],['超市','supermarket.png','超市'],['游乐场','park.png','游乐场'],['中国','china.png','中国']];let p=places[idx];h=heading('我们怎么去？','去不同的地方，可以选择不同的交通工具。没有唯一答案。')+img(p[1],'class="heroimg"')+'<div class="big center">去'+p[0]+'，你想怎么去？</div><div class="grid">'+vehicles.filter(x=>['自行车','小汽车','公交车','火车','飞机','船'].includes(x[0])).map(x=>tile(x[0],x[1],`placePick('${x[0]}','${p[2]}')`)).join('')+'</div><div class="feedback" id="feedback"></div>'+pageControls(places.length)}
+    if(tab==='help'){let cases=[['小朋友迷路了，谁来帮忙？','help-lost.png','警车','警车来帮忙。'],['老爷爷摔倒了，谁来帮忙？','help-old.png','救护车','救护车来救人。'],['房子着火了，谁来帮忙？','help-fire.png','消防车','消防车来灭火。']];let q=cases[idx];h=heading('谁来帮忙？','听一听发生了什么，找一找哪辆车来帮忙。')+'<div class="center">'+btn('🔊 听情景',`say('${q[0]}')`,'pill primary')+'</div>'+img(q[1],'class="heroimg"')+'<div class="grid">'+vehicles.slice(-3).map(x=>tile(x[0],x[1],`helpPick('${x[0]}','${q[2]}','${q[3]}')`)).join('')+'</div><div class="feedback" id="feedback"></div>'+pageControls(3)}
+    if(tab==='compare'){let c=[['谁大？谁小？','ref-car.jpg','ref-bus.jpg','公交车大，小汽车小。'],['谁长？谁短？','ref-car.jpg','ref-train.jpg','火车长，小汽车短。'],['谁大？谁小？','ref-boat.jpg','boat_small.png','大船大，小船小。']][idx];h=heading('比一比','看一看两张图片，说一说哪里不一样。')+'<div class="big center">'+c[0]+'</div><div class="two">'+img(c[1],'class="heroimg"')+img(c[2],'class="heroimg"')+'</div><div class="center">'+btn('🔊 听一听',`say('${c[3]}')`,'pill primary')+'</div>'+pageControls(3)}
+    if(tab==='sort'){let x=vehicles.filter(v=>!['警车','救护车','消防车','出租车'].includes(v[0])).slice(0,9)[idx];let answer=['飞机','直升飞机'].includes(x[0])?'天上':x[0]==='船'?'水上':'地上';h=heading('天上 · 地上 · 水上','这是什么交通工具？它在哪里行驶？')+img(x[1],'class="heroimg"')+'<div class="choice-row">'+['地上','天上','水上'].map(y=>btn(y,`choose('${y}','${answer}')`)).join('')+'</div><div class="feedback" id="feedback"></div>'+pageControls(9)}
+    if(tab==='safety'){let q=[['红色小人亮了，停下来，等一等。','红灯亮了，应该怎么办？',['停下来','马上走'],'停下来'],['绿色小人亮了，先看一看，确认安全再过马路。','绿灯亮了，应该怎么办？',['马上跑过去','先看一看，确认安全再走'],'先看一看，确认安全再走']][idx];h=heading('安全过马路','先看图，再听一听，选一选。')+'<img class="safety-visual" src="assets/safety-crossing.png" alt="红色行人灯等待，绿色行人灯确认安全后过马路">'+'<div class="center">'+btn('🔊 听一听',`say('${q[0]}')`,'pill primary')+'</div><div class="big center">'+q[1]+'</div><div class="choice-row">'+q[2].map(x=>btn(x,`choose('${x}','${q[3]}')`)).join('')+'</div><div class="feedback" id="feedback"></div>'+pageControls(2)}
+    if(tab==='like'){let items=[['小汽车','ref-car.jpg',[['瓢虫','ladybug.png','小汽车像瓢虫。'],['苹果','apple.svg','小汽车像苹果。']]],['公交车','ref-bus.jpg',[['大箱子','box.png','公交车像一个大箱子。'],['大面包','bread.svg','公交车像大面包。']]],['火车','ref-train.jpg',[['毛毛虫','caterpillar.svg','火车像毛毛虫。'],['积木','blocks.svg','火车像积木。']]],['飞机','ref-plane.jpg',[['小鸟','bird.png','飞机像小鸟。'],['纸飞机','paper-plane.svg','飞机像纸飞机。']]],['小船','boat_small.png',[['香蕉','banana.png','小船像香蕉。'],['月亮','moon.svg','小船像月亮。']]]];let x=items[idx];h=heading('交通工具像什么？','先看看交通工具，再选一张你觉得像的图片。选好后听完整句子。')+img(x[1],'class="like-prompt"')+'<div class="big center">'+x[0]+'像什么？</div><div class="like-options">'+x[2].map(y=>'<button type="button" class="like-option" onclick="likePick(this,\''+y[2]+'\')">'+img(y[1])+'<span>'+y[0]+'</span></button>').join('')+'</div><div class="feedback" id="feedback"></div>'+pageControls(items.length)}
+    if(tab==='games'){let games=[['交通工具大搜索','ref-find-vehicle.jpg','找一找，你看到了哪些交通工具？'],['哪里奇怪？','strange.png','哪里奇怪？']];let g=games[idx];h=heading(g[0],'仔细观察图片，指一指，说一说。')+'<div class="game-image-wrap">'+img(g[1],'class="game-large-image"')+'</div>'+'<div class="center">'+btn('🔊 听题目',`say('${g[2]}')`,'pill primary')+'</div>'+pageControls(2)}
+    app.innerHTML=h;
+}
+
+function likePick(el,t){stopAllAudio();document.querySelectorAll('.like-option').forEach(b=>b.classList.remove('selected'));el.classList.add('selected');document.getElementById('feedback').textContent='🌟 '+t;say(t)}
 function listenPick(a,b){feedback(a===b);if(a===b)say('答对啦，你真棒！')}
-function listenNext(){round++;if(round>=quiz.length){quiz=[];round=0}render()}
+function listenNext(){stopAllAudio();round++;if(round>=quiz.length){quiz=[];round=0}render()}
 function ridePick(a,b,n){let ok=a===b;feedback(ok);if(ok){let t='我'+a+n+'。';document.getElementById('feedback').textContent='🌟 '+t;say(t)}}
 function placePick(n,p){let t=(n==='自行车'?'我骑':'我坐')+n+'去'+p+'。';document.getElementById('feedback').textContent='🌟 '+t;say(t)}
 function helpPick(a,b,t){if(a===b){document.getElementById('feedback').textContent='🌟 '+t;say(t)}else feedback(false)}
