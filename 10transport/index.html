@@ -42,80 +42,52 @@ const pageControls=(length)=>'<div class="controls">'+btn('← 上一个','prev(
 let tab='names',idx=0,lastText='',selected=null,round=0,quiz=[],correct=0,mode='';
 const app=document.getElementById('app'),nav=document.getElementById('nav'),status=document.getElementById('audioStatus');
 
-// ======== 终极防叠音 + 智能变量识别 引擎 ========
+// 统一使用 audio/ 下预生成的 MP3，不使用浏览器系统朗读。
 let currentAudio = null;
-let currentUtterance = null;
-
-function stopAllAudio() {
-    // 1. 彻底干掉 MP3
-    if (currentAudio) {
+let playbackToken = 0;
+function stopAllAudio(){
+    playbackToken++;
+    if(currentAudio){
         currentAudio.pause();
-        currentAudio.src = ""; // 强制释放资源
-        currentAudio.load();
+        currentAudio.removeAttribute('src');
         currentAudio = null;
     }
-    // 2. 暴力清除系统音（针对手机端优化）
-    if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-        if (currentUtterance) {
-            currentUtterance = null;
-        }
-    }
+    if('speechSynthesis' in window) window.speechSynthesis.cancel();
 }
-
 function say(t){
-    if (!t) return;
-    lastText = t; 
-    
-    // 每次播放前，先清空一切正在响的东西
+    if(!t) return;
+    lastText=t;
     stopAllAudio();
-    
-    // 强制兼容两个变量名（防止你的生成脚本用的是 TTS_MANIFEST 或 TTS_AUDIO）
-    const manifest = window.TTS_AUDIO || window.TTS_MANIFEST || {};
-    let path = manifest[t];
-    
-    // 智能容错：去掉标点再找一次
-    if (!path) {
-        let cleanText = t.replace(/[。，？、！\s]/g, '');
-        for (let key in manifest) {
-            if (key.replace(/[。，？、！\s]/g, '') === cleanText) {
-                path = manifest[key];
-                break;
-            }
-        }
+    const token=playbackToken;
+    const manifest=window.TTS_AUDIO || window.TTS_MANIFEST || {};
+    let path=manifest[t];
+    if(!path){
+        const normalized=s=>s.replace(/[。，？、！\s]/g,'');
+        const match=Object.keys(manifest).find(key=>normalized(key)===normalized(t));
+        if(match) path=manifest[match];
     }
-    
-    if(path){
-        status.textContent='';
-        currentAudio = new Audio('audio/' + path); 
-        currentAudio.play().catch(err => {
-            console.warn('MP3被浏览器拦截或加载失败:', err);
-            fallbackTTS(t); 
-        });
-    } else {
-        // 没找到 MP3，走系统音
-        status.textContent='';
-        console.log("❌ 缺失 AI 音频，降级系统音:", t); 
-        fallbackTTS(t);
-    }
-}
-
-function fallbackTTS(t) {
-    if (!('speechSynthesis' in window)) {
-        status.textContent = '这条语音尚未生成：' + t;
+    if(!path){
+        status.textContent='🔇 这句话还没有生成语音：'+t;
+        console.warn('缺少预生成MP3:',t);
         return;
     }
-    // 延迟一点点播放系统音，防止和前面被强制 cancel 的声音打架（手机端必须加）
-    setTimeout(() => {
-        window.speechSynthesis.cancel(); 
-        const u = new SpeechSynthesisUtterance(t);
-        u.lang = 'zh-CN';
-        u.rate = 0.85; 
-        currentUtterance = u;
-        window.speechSynthesis.speak(u);
-    }, 50);
+    // 兼容清单里写入文件名、audio/相对路径或完整URL。
+    const source=/^(https?:|\/)/.test(path)||path.startsWith('audio/')?path:'audio/'+path;
+    const audio=new Audio(source);
+    currentAudio=audio;
+    status.textContent='';
+    audio.addEventListener('error',()=>{
+        if(token!==playbackToken)return;
+        status.textContent='🔇 音频文件无法加载：'+t;
+        console.warn('音频文件无法加载:',source);
+    });
+    audio.addEventListener('ended',()=>{if(currentAudio===audio)currentAudio=null});
+    audio.play().catch(err=>{
+        if(token!==playbackToken)return;
+        status.textContent='🔇 无法播放音频，请再点一次喇叭。';
+        console.warn('MP3播放失败:',source,err);
+    });
 }
-// ==============================================
 
 function showTab(id){stopAllAudio();tab=id;idx=0;selected=null;round=0;correct=0;nav.innerHTML=modules.map(([key,label])=>'<button type="button" class="'+(key===tab?'active':'')+'" onclick="showTab(\''+key+'\')">'+label+'</button>').join('');render();window.scrollTo({top:0,behavior:'smooth'})}
 function prev(){stopAllAudio();idx=Math.max(0,idx-1);selected=null;render()}
@@ -143,9 +115,9 @@ function render(){
 }
 
 function likePick(el,t){stopAllAudio();document.querySelectorAll('.like-option').forEach(b=>b.classList.remove('selected'));el.classList.add('selected');document.getElementById('feedback').textContent='🌟 '+t;say(t)}
-function listenPick(a,b){feedback(a===b);if(a===b)say('答对啦，你真棒！')}
+function listenPick(a,b){feedback(a===b)}
 function listenNext(){stopAllAudio();round++;if(round>=quiz.length){quiz=[];round=0}render()}
-function ridePick(a,b,n){let ok=a===b;feedback(ok);if(ok){let t='我'+a+n+'。';document.getElementById('feedback').textContent='🌟 '+t;say(t)}}
+function ridePick(a,b,n){let ok=a===b;if(ok){let t='我'+a+n+'。';document.getElementById('feedback').textContent='🌟 '+t;say(t)}else feedback(false)}
 function placePick(n,p){let t=(n==='自行车'?'我骑':'我坐')+n+'去'+p+'。';document.getElementById('feedback').textContent='🌟 '+t;say(t)}
 function helpPick(a,b,t){if(a===b){document.getElementById('feedback').textContent='🌟 '+t;say(t)}else feedback(false)}
 
