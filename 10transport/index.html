@@ -14,7 +14,40 @@ const heading=(title,desc)=>'<h2>'+title+'</h2><p class="hint">'+desc+'</p>';
 const pageControls=(length)=>'<div class="controls">'+btn('← 上一个','prev()')+'<span class="count">'+(idx+1)+' / '+length+'</span>'+btn('下一个 →','next()')+'</div>';
 let tab='names',idx=0,lastText='',audio=null,selected=null,round=0,quiz=[],correct=0,mode='';
 const app=document.getElementById('app'),nav=document.getElementById('nav'),status=document.getElementById('audioStatus');
-function say(t){lastText=t; if(audio){audio.pause();audio=null} const path=(window.TTS_MANIFEST||{})[t];if(!path){status.textContent='这条语音尚未生成：'+t;return}status.textContent='';audio=new Audio('audio/'+path);audio.play().catch(()=>status.textContent='语音暂时无法播放，请确认 audio 文件夹中已有MP3。')}
+function say(t){
+    lastText=t; 
+    if(audio){audio.pause();audio=null;} 
+    
+    // 1. 修正变量名：你的 Python 脚本生成的是 TTS_AUDIO
+    const path=(window.TTS_AUDIO||{})[t]; 
+    
+    if(path){
+        status.textContent='';
+        // 因为引入了 audio/tts-manifest.js，这里直接拼 audio/ 就可以了
+        audio=new Audio('audio/'+path); 
+        audio.play().catch(()=>{
+            status.textContent='语音加载失败，已切换为系统配音。';
+            fallbackTTS(t); // 播放失败时降级
+        });
+    } else {
+        // 2. 如果 AI 语音库里没有这个词（比如“马车”），直接降级
+        status.textContent='';
+        fallbackTTS(t);
+    }
+}
+
+// 新增：降级使用的系统配音
+function fallbackTTS(t) {
+    if (!('speechSynthesis' in window)) {
+        status.textContent = '这条语音尚未生成：' + t;
+        return;
+    }
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(t);
+    u.lang = 'zh-CN';
+    u.rate = 0.85; // 系统音稍微慢一点
+    speechSynthesis.speak(u);
+}
 function showTab(id){tab=id;idx=0;selected=null;round=0;correct=0;nav.innerHTML=modules.map(([key,label])=>'<button type="button" class="'+(key===tab?'active':'')+'" onclick="showTab(\''+key+'\')">'+label+'</button>').join('');render();window.scrollTo({top:0,behavior:'smooth'})}
 function prev(){idx=Math.max(0,idx-1);selected=null;render()}
 function next(){let lengths={names:vehicles.length,ride:8,places:4,help:3,compare:3,sort:9,safety:2,like:5,games:2};idx=(idx+1)%(lengths[tab]||1);selected=null;render()}
