@@ -56,7 +56,7 @@ async def process_module(module_dir: Path):
 
         print(f"  🔊 生成中: {filename} -> {text[:15]}...")
         try:
-            communicate = edge_tts.Communicate(text, VOICE)
+            communicate = edge_tts.Communicate(text, VOICE， rate="-25%")
             await communicate.save(output_path)
             
             # 检查生成的静音bug
