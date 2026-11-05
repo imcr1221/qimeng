@@ -1,25 +1,29 @@
-name: Generate Audio from Texts
+name: Build TTS and Deploy
 
 on:
   push:
     paths:
-      - '**/*.html' # 👈 监控所有目录下的 HTML 变化
-  workflow_dispatch: 
+      - '**/*.html'
+  workflow_dispatch:
 
+# 必须给写权限，否则无法把生成的 mp3 推回仓库
 permissions:
   contents: write 
 
 jobs:
-  build:
-    runs-on: ubuntu-latest 
+  build-tts:
+    runs-on: ubuntu-latest
+    # 限制整个任务最多跑 20 分钟，防止无限期卡死
+    timeout-minutes: 20 
+    
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4 
+        uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10' 
+          python-version: '3.10'
 
       - name: Install dependencies
         run: |
@@ -27,13 +31,13 @@ jobs:
           pip install beautifulsoup4 edge-tts
 
       - name: Run audio generation script
-        run: python generate_audio.py 
+        # 强制 10 分钟超时，即使脚本卡住也不会把整个 build 拖死
+        run: timeout 600 python generate_audio.py || echo "脚本超时或出错，继续尝试提交已生成的文件"
 
       - name: Commit and push generated audio files
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          # 👈 把所有模块下的 audio 文件夹都加进去
           git add */audio/
           git commit -m "Auto-generate audio files" || exit 0
           git push
