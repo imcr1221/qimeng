@@ -1,6 +1,8 @@
 window.TTS_AUDIO = {
+  "${x[0]}像什么？": "tts_9acd5b89a8a683c720d3.mp3",
   "公交车": "tts_5e924c9a3b4bae3703a4.mp3",
   "公交车像一个大箱子。": "tts_d72ce5788ab3180e4428.mp3",
+  "公交车像什么？": "tts_283c9c7122839c109889.mp3",
   "公交车像大面包。": "tts_f3854f4a0635e8bd04a0.mp3",
   "公交车大，小汽车小。": "tts_eaab94da729a9a2f1098.mp3",
   "再试一次吧！": "tts_45878ef5798774264cc1.mp3",
@@ -13,8 +15,10 @@ window.TTS_AUDIO = {
   "对啦！它在水上行驶。": "tts_ba38da0cf09638b67277.mp3",
   "小朋友迷路了，谁来帮忙？": "tts_baad73b6d97a64dd5a7f.mp3",
   "小汽车": "tts_1defa32e98270a6e99fa.mp3",
+  "小汽车像什么？": "tts_7cc70f42cd13a5aa1f3b.mp3",
   "小汽车像瓢虫。": "tts_f4a347f4f4dc52f84413.mp3",
   "小汽车像苹果。": "tts_17c2428967cf4c3eaaf0.mp3",
+  "小船像什么？": "tts_347ffedafaf96463b18d.mp3",
   "小船像月亮。": "tts_358fca9ed8d003fb732b.mp3",
   "小船像香蕉。": "tts_ff52dc4b5150d9199862.mp3",
   "我坐公交车。": "tts_152ca693e0dd390f991b.mp3",
@@ -58,6 +62,7 @@ window.TTS_AUDIO = {
   "消防车": "tts_0c92c669afff9e4f1615.mp3",
   "消防车来灭火。": "tts_1363d97447f3c065cdb3.mp3",
   "火车": "tts_c99a0d1f3f22873ade11.mp3",
+  "火车像什么？": "tts_1357917adeaddc815c5d.mp3",
   "火车像毛毛虫。": "tts_d101f134de6a62bfa384.mp3",
   "火车像积木。": "tts_af27587e0e313c90c394.mp3",
   "火车长，小汽车短。": "tts_987c12c80337cd48e54d.mp3",
@@ -100,13 +105,8 @@ window.TTS_AUDIO = {
   "这是马车，它在哪里行驶？": "tts_fb1a44834f3693da4a61.mp3",
   "这是马车，它在哪里？": "tts_24bbaa8a198e2c7b2e46.mp3",
   "飞机": "tts_b07e6dd6bfd876c6b46a.mp3",
+  "飞机像什么？": "tts_33bd2d2fd7fd5a98054e.mp3",
   "飞机像小鸟。": "tts_a60671e6c1c6038db793.mp3",
   "飞机像纸飞机。": "tts_c15cf06022a3492247f3.mp3",
-  "马车": "tts_a9df5a01e6e77a31c61c.mp3",
-  "${x[0]}像什么？": "tts_9acd5b89a8a683c720d3.mp3",
-  "公交车像什么？": "tts_283c9c7122839c109889.mp3",
-  "小汽车像什么？": "tts_7cc70f42cd13a5aa1f3b.mp3",
-  "小船像什么？": "tts_347ffedafaf96463b18d.mp3",
-  "火车像什么？": "tts_1357917adeaddc815c5d.mp3",
-  "飞机像什么？": "tts_33bd2d2fd7fd5a98054e.mp3"
+  "马车": "tts_a9df5a01e6e77a31c61c.mp3"
 };
