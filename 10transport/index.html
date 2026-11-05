@@ -1,8 +1,35 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>交通工具｜启蒙班中文学习乐园</title><style>
-:root{--ink:#284954;--muted:#647d82;--teal:#247e86;--border:#d6e9e8;--cream:#fffdf7}*{box-sizing:border-box}body{margin:0;background:linear-gradient(140deg,#fff8eb,#eaf6f3 70%);color:var(--ink);font-family:system-ui,'Microsoft YaHei','PingFang SC',sans-serif}button{font:inherit;cursor:pointer}button:focus-visible,a:focus-visible{outline:4px solid #ffb84e;outline-offset:3px}header{max-width:1100px;margin:auto;padding:18px 18px 10px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}h1{font-size:clamp(25px,4vw,38px);margin:4px 0}h2{font-size:clamp(23px,3vw,31px);margin:0 0 12px}p{line-height:1.6}.sub{color:var(--muted);margin:0}.shell{max-width:1100px;margin:auto;padding:8px 18px 35px}.pill,.nav button,.controls button{border:2px solid var(--border);background:white;color:var(--ink);border-radius:999px;padding:11px 17px;font-weight:700;text-decoration:none;display:inline-block}.nav{display:flex;gap:9px;flex-wrap:wrap;margin:15px 0 18px}.nav button{font-size:16px}.nav button.active,.pill.primary{background:var(--teal);border-color:var(--teal);color:#fff}.panel{background:#ffffffed;border-radius:26px;padding:clamp(17px,3vw,28px);min-height:400px;box-shadow:0 10px 30px #316b7417}.hint{color:var(--muted);font-size:17px}.controls{display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;margin:18px 0}.controls button{min-width:115px}.count{font-weight:800;color:var(--teal);font-size:15px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:13px;margin:18px 0}.tile{border:2px solid var(--border);border-radius:20px;background:#fff;padding:10px;min-height:150px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center}.tile img{width:100%;height:125px;object-fit:contain;border-radius:12px}.tile strong{font-size:19px}.tile:active{transform:scale(.98)}.tile.selected{background:#fff4d8;border-color:#e7ad46}.tile.correct{background:#e7f7ed;border-color:#43ad7b}.tile.wrong{background:#fff0e9;border-color:#e69a7e}.heroimg{width:min(100%,510px);height:clamp(220px,36vw,340px);object-fit:contain;display:block;margin:12px auto;border-radius:18px}.center{text-align:center}.big{font-size:clamp(22px,3vw,30px);font-weight:800}.feedback{min-height:35px;color:#18796b;font-size:20px;font-weight:800;text-align:center}.choice-row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}.choice-row button{border:2px solid var(--border);border-radius:16px;background:#fff;padding:13px 20px;font-weight:800;font-size:20px;min-width:100px}.section-switch{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 12px}.section-switch button{background:#f2f9f8;border:1px solid var(--border);border-radius:12px;padding:9px 14px;font-weight:700}.section-switch button.active{background:#ccece6}.info{background:#eff8f5;border-radius:18px;padding:14px 18px;margin:15px 0}.status{font-size:13px;color:#7c6652;min-height:20px}.two{display:grid;grid-template-columns:1fr 1fr;gap:15px}.smallpic{height:105px!important}.emoji{font-size:78px}.like-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;max-width:650px;margin:16px auto}.like-option{border:3px solid var(--border);border-radius:20px;background:#fff;padding:12px;min-height:175px;font-weight:800;font-size:19px}.like-option img{display:block;width:100%;height:130px;object-fit:contain}.like-option:focus-visible{outline:4px solid orange}.like-prompt{max-width:310px;width:100%;height:180px;object-fit:contain;display:block;margin:auto}.safety-visual{width:100%;max-width:850px;height:auto;display:block;margin:12px auto;border-radius:18px}footer{max-width:1100px;margin:auto;padding:0 18px 30px;color:var(--muted);font-size:13px}@media(max-width:600px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.tile img{height:105px}.two{grid-template-columns:1fr}.nav button{padding:10px 12px}.panel{min-height:320px}} .game-large-image{display:block;width:100%;max-width:1050px;height:auto;max-height:none;object-fit:contain;margin:18px auto;border-radius:18px}.game-image-wrap{width:100%;overflow:hidden}@media(max-width:600px){.game-large-image{width:100%;max-width:none;height:auto}} </style></head><body>
-<header><div><div class="sub">🌈 启蒙班 · 中文学习乐园</div><h1>🚗 交通工具小课堂</h1><p class="sub">听一听 · 看一看 · 说一说 · 玩一玩</p></div><div><a class="pill" href="../index.html">🏠 返回学习乐园</a> <button class="pill" id="repeat">🔊 再听一次</button></div></header>
-<div class="shell"><nav class="nav" id="nav" aria-label="学习栏目"></nav><main class="panel" id="app" aria-live="polite"></main><div id="audioStatus" class="status" role="status"></div></div><footer>小朋友可以自由选择栏目，不需要按天完成。听不懂时，爸爸妈妈可以陪着一起指一指、说一说。</footer>
-<script src="audio/tts-manifest.js"></script><script>
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>交通工具｜启蒙班中文学习乐园</title>
+<style>
+:root{--ink:#284954;--muted:#647d82;--teal:#247e86;--border:#d6e9e8;--cream:#fffdf7}*{box-sizing:border-box}body{margin:0;background:linear-gradient(140deg,#fff8eb,#eaf6f3 70%);color:var(--ink);font-family:system-ui,'Microsoft YaHei','PingFang SC',sans-serif}button{font:inherit;cursor:pointer}button:focus-visible,a:focus-visible{outline:4px solid #ffb84e;outline-offset:3px}header{max-width:1100px;margin:auto;padding:18px 18px 10px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}h1{font-size:clamp(25px,4vw,38px);margin:4px 0}h2{font-size:clamp(23px,3vw,31px);margin:0 0 12px}p{line-height:1.6}.sub{color:var(--muted);margin:0}.shell{max-width:1100px;margin:auto;padding:8px 18px 35px}.pill,.nav button,.controls button{border:2px solid var(--border);background:white;color:var(--ink);border-radius:999px;padding:11px 17px;font-weight:700;text-decoration:none;display:inline-block}.nav{display:flex;gap:9px;flex-wrap:wrap;margin:15px 0 18px}.nav button{font-size:16px}.nav button.active,.pill.primary{background:var(--teal);border-color:var(--teal);color:#fff}.panel{background:#ffffffed;border-radius:26px;padding:clamp(17px,3vw,28px);min-height:400px;box-shadow:0 10px 30px #316b7417}.hint{color:var(--muted);font-size:17px}.controls{display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;margin:18px 0}.controls button{min-width:115px}.count{font-weight:800;color:var(--teal);font-size:15px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:13px;margin:18px 0}.tile{border:2px solid var(--border);border-radius:20px;background:#fff;padding:10px;min-height:150px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center}.tile img{width:100%;height:125px;object-fit:contain;border-radius:12px}.tile strong{font-size:19px}.tile:active{transform:scale(.98)}.tile.selected{background:#fff4d8;border-color:#e7ad46}.tile.correct{background:#e7f7ed;border-color:#43ad7b}.tile.wrong{background:#fff0e9;border-color:#e69a7e}.heroimg{width:min(100%,510px);height:clamp(220px,36vw,340px);object-fit:contain;display:block;margin:12px auto;border-radius:18px}.center{text-align:center}.big{font-size:clamp(22px,3vw,30px);font-weight:800}.feedback{min-height:35px;color:#18796b;font-size:20px;font-weight:800;text-align:center}.choice-row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}.choice-row button{border:2px solid var(--border);border-radius:16px;background:#fff;padding:13px 20px;font-weight:800;font-size:20px;min-width:100px}.section-switch{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 12px}.section-switch button{background:#f2f9f8;border:1px solid var(--border);border-radius:12px;padding:9px 14px;font-weight:700}.section-switch button.active{background:#ccece6}.info{background:#eff8f5;border-radius:18px;padding:14px 18px;margin:15px 0}.status{font-size:13px;color:#7c6652;min-height:20px}.two{display:grid;grid-template-columns:1fr 1fr;gap:15px}.smallpic{height:105px!important}.emoji{font-size:78px}.like-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;max-width:650px;margin:16px auto}.like-option{border:3px solid var(--border);border-radius:20px;background:#fff;padding:12px;min-height:175px;font-weight:800;font-size:19px}.like-option img{display:block;width:100%;height:130px;object-fit:contain}.like-option:focus-visible{outline:4px solid orange}.like-prompt{max-width:310px;width:100%;height:180px;object-fit:contain;display:block;margin:auto}.safety-visual{width:100%;max-width:850px;height:auto;display:block;margin:12px auto;border-radius:18px}footer{max-width:1100px;margin:auto;padding:0 18px 30px;color:var(--muted);font-size:13px}@media(max-width:600px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.tile img{height:105px}.two{grid-template-columns:1fr}.nav button{padding:10px 12px}.panel{min-height:320px}} .game-large-image{display:block;width:100%;max-width:1050px;height:auto;max-height:none;object-fit:contain;margin:18px auto;border-radius:18px}.game-image-wrap{width:100%;overflow:hidden}@media(max-width:600px){.game-large-image{width:100%;max-width:none;height:auto}} 
+</style>
+</head>
+<body>
+<header>
+    <div>
+        <div class="sub">🌈 启蒙班 · 中文学习乐园</div>
+        <h1>🚗 交通工具小课堂</h1>
+        <p class="sub">听一听 · 看一看 · 说一说 · 玩一玩</p>
+    </div>
+    <div>
+        <a class="pill" href="../index.html">🏠 返回学习乐园</a> 
+        <button class="pill" id="repeat">🔊 再听一次</button>
+    </div>
+</header>
+<div class="shell">
+    <nav class="nav" id="nav" aria-label="学习栏目"></nav>
+    <main class="panel" id="app" aria-live="polite"></main>
+    <div id="audioStatus" class="status" role="status"></div>
+</div>
+<footer>小朋友可以自由选择栏目，不需要按天完成。听不懂时，爸爸妈妈可以陪着一起指一指、说一说。</footer>
+
+<!-- 注意这里：路径必须带有 audio/ 前缀 -->
+<script src="audio/tts-manifest.js"></script>
+<script>
 'use strict';
 const A='assets/';
 const vehicles=[['马车','ref-carriage.jpg','坐'],['自行车','ref-bike.jpg','骑'],['小汽车','ref-car.jpg','坐'],['出租车','ref-taxi.jpg','坐'],['公交车','ref-bus.jpg','坐'],['火车','ref-train.jpg','坐'],['地铁','metro.png','坐'],['飞机','ref-plane.jpg','坐'],['直升飞机','helicopter.png','坐'],['船','ref-boat.jpg','坐'],['警车','ref-police.jpg','特殊'],['救护车','ref-ambulance.jpg','特殊'],['消防车','ref-fire.jpg','特殊']];
@@ -14,40 +41,67 @@ const heading=(title,desc)=>'<h2>'+title+'</h2><p class="hint">'+desc+'</p>';
 const pageControls=(length)=>'<div class="controls">'+btn('← 上一个','prev()')+'<span class="count">'+(idx+1)+' / '+length+'</span>'+btn('下一个 →','next()')+'</div>';
 let tab='names',idx=0,lastText='',audio=null,selected=null,round=0,quiz=[],correct=0,mode='';
 const app=document.getElementById('app'),nav=document.getElementById('nav'),status=document.getElementById('audioStatus');
+
+// ======== 核心发音逻辑（重写防叠音版） ========
 function say(t){
-    lastText=t; 
-    if(audio){audio.pause();audio=null;} 
+    if (!t) return;
+    lastText = t; 
     
-    // 1. 修正变量名：你的 Python 脚本生成的是 TTS_AUDIO
-    const path=(window.TTS_AUDIO||{})[t]; 
+    // 1. 强制停止浏览器自带的系统音（防止双音重叠）
+    if ('speechSynthesis' in window) {
+        speechSynthesis.cancel();
+    }
+    // 2. 强制停止正在播放的 MP3
+    if(audio){
+        audio.pause();
+        audio.currentTime = 0;
+        audio = null;
+    } 
     
+    // 3. 智能查找：先找完全匹配，找不到尝试去除标点匹配
+    let path = (window.TTS_AUDIO||{})[t];
+    
+    if (!path) {
+        let cleanText = t.replace(/[。，？、！\s]/g, '');
+        for (let key in window.TTS_AUDIO) {
+            if (key.replace(/[。，？、！\s]/g, '') === cleanText) {
+                path = window.TTS_AUDIO[key];
+                break;
+            }
+        }
+    }
+    
+    // 4. 执行播放
     if(path){
         status.textContent='';
-        // 因为引入了 audio/tts-manifest.js，这里直接拼 audio/ 就可以了
-        audio=new Audio('audio/'+path); 
-        audio.play().catch(()=>{
-            status.textContent='语音加载失败，已切换为系统配音。';
-            fallbackTTS(t); // 播放失败时降级
+        audio = new Audio('audio/' + path); 
+        audio.play().catch(err => {
+            console.error('MP3播放失败:', err);
+            status.textContent='音频加载失败，切换系统配音。';
+            fallbackTTS(t); 
         });
     } else {
-        // 2. 如果 AI 语音库里没有这个词（比如“马车”），直接降级
+        // 找不到 AI 音频，直接降级
         status.textContent='';
+        console.log("缺失 AI 音频，降级系统音:", t); 
         fallbackTTS(t);
     }
 }
 
-// 新增：降级使用的系统配音
+// 降级使用的系统配音
 function fallbackTTS(t) {
     if (!('speechSynthesis' in window)) {
         status.textContent = '这条语音尚未生成：' + t;
         return;
     }
-    speechSynthesis.cancel();
+    speechSynthesis.cancel(); 
     const u = new SpeechSynthesisUtterance(t);
     u.lang = 'zh-CN';
-    u.rate = 0.85; // 系统音稍微慢一点
+    u.rate = 0.85; 
     speechSynthesis.speak(u);
 }
+// ==============================================
+
 function showTab(id){tab=id;idx=0;selected=null;round=0;correct=0;nav.innerHTML=modules.map(([key,label])=>'<button type="button" class="'+(key===tab?'active':'')+'" onclick="showTab(\''+key+'\')">'+label+'</button>').join('');render();window.scrollTo({top:0,behavior:'smooth'})}
 function prev(){idx=Math.max(0,idx-1);selected=null;render()}
 function next(){let lengths={names:vehicles.length,ride:8,places:4,help:3,compare:3,sort:9,safety:2,like:5,games:2};idx=(idx+1)%(lengths[tab]||1);selected=null;render()}
@@ -64,13 +118,17 @@ if(tab==='sort'){let x=vehicles.filter(v=>!['警车','救护车','消防车','�
 if(tab==='safety'){let q=[['红色小人亮了，停下来，等一等。','红灯亮了，应该怎么办？',['停下来','马上走'],'停下来'],['绿色小人亮了，先看一看，确认安全再过马路。','绿灯亮了，应该怎么办？',['马上跑过去','先看一看，确认安全再走'],'先看一看，确认安全再走']][idx];h=heading('安全过马路','先看图，再听一听，选一选。')+'<img class="safety-visual" src="assets/safety-crossing.png" alt="红色行人灯等待，绿色行人灯确认安全后过马路">'+'<div class="center">'+btn('🔊 听一听',`say('${q[0]}')`,'pill primary')+'</div><div class="big center">'+q[1]+'</div><div class="choice-row">'+q[2].map(x=>btn(x,`choose('${x}','${q[3]}')`)).join('')+'</div><div class="feedback" id="feedback"></div>'+pageControls(2)}
 if(tab==='like'){let items=[['小汽车','ref-car.jpg',[['瓢虫','ladybug.png','小汽车像瓢虫。'],['苹果','apple.svg','小汽车像苹果。']]],['公交车','ref-bus.jpg',[['大箱子','box.png','公交车像一个大箱子。'],['大面包','bread.svg','公交车像大面包。']]],['火车','ref-train.jpg',[['毛毛虫','caterpillar.svg','火车像毛毛虫。'],['积木','blocks.svg','火车像积木。']]],['飞机','ref-plane.jpg',[['小鸟','bird.png','飞机像小鸟。'],['纸飞机','paper-plane.svg','飞机像纸飞机。']]],['小船','boat_small.png',[['香蕉','banana.png','小船像香蕉。'],['月亮','moon.svg','小船像月亮。']]]];let x=items[idx];h=heading('交通工具像什么？','先看看交通工具，再选一张你觉得像的图片。选好后听完整句子。')+img(x[1],'class="like-prompt"')+'<div class="big center">'+x[0]+'像什么？</div><div class="like-options">'+x[2].map(y=>'<button type="button" class="like-option" onclick="likePick(this,\''+y[2]+'\')">'+img(y[1])+'<span>'+y[0]+'</span></button>').join('')+'</div><div class="feedback" id="feedback"></div>'+pageControls(items.length)}
 if(tab==='games'){let games=[['交通工具大搜索','ref-find-vehicle.jpg','找一找，你看到了哪些交通工具？'],['哪里奇怪？','strange.png','哪里奇怪？']];let g=games[idx];h=heading(g[0],'仔细观察图片，指一指，说一说。')+'<div class="game-image-wrap">'+img(g[1],'class="game-large-image"')+'</div>'+'<div class="center">'+btn('🔊 听题目',`say('${g[2]}')`,'pill primary')+'</div>'+pageControls(2)}
-
 app.innerHTML=h}
+
 function likePick(el,t){document.querySelectorAll('.like-option').forEach(b=>b.classList.remove('selected'));el.classList.add('selected');document.getElementById('feedback').textContent='🌟 '+t;say(t)}
 function listenPick(a,b){feedback(a===b);if(a===b)say('答对啦，你真棒！')}
 function listenNext(){round++;if(round>=quiz.length){quiz=[];round=0}render()}
 function ridePick(a,b,n){let ok=a===b;feedback(ok);if(ok){let t='我'+a+n+'。';document.getElementById('feedback').textContent='🌟 '+t;say(t)}}
 function placePick(n,p){let t=(n==='自行车'?'我骑':'我坐')+n+'去'+p+'。';document.getElementById('feedback').textContent='🌟 '+t;say(t)}
 function helpPick(a,b,t){if(a===b){document.getElementById('feedback').textContent='🌟 '+t;say(t)}else feedback(false)}
-document.getElementById('repeat').onclick=()=>{if(lastText)say(lastText);else say('点一点图片，听一听。')};showTab('names');
-</script></body></html>
+
+document.getElementById('repeat').onclick=()=>{if(lastText)say(lastText);else say('点一点图片，听一听。')};
+showTab('names');
+</script>
+</body>
+</html>
