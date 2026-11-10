@@ -1,0 +1,136 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>各种各样的职业 · 中文复习</title><style>
+:root{font-family:'Microsoft YaHei','PingFang SC','Noto Sans SC',system-ui,sans-serif;color:#304a54;background:#f2fbfa}*{box-sizing:border-box}body{margin:0;background:linear-gradient(140deg,#e8f8f5,#fff9ed 55%,#eaf5ff)}main{max-width:1000px;margin:auto;padding:12px 13px 45px}.top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:8px 0 12px}.back{display:inline-flex;align-items:center;min-height:48px;padding:10px 16px;background:#fff;border:2px solid #baded3;border-radius:15px;color:#246e5b;text-decoration:none;font-size:17px;font-weight:800}.hero{width:100%;max-width:1000px;margin:0 auto}.cover{width:100%;height:auto;display:block;aspect-ratio:16/9;object-fit:contain;border-radius:22px;box-shadow:0 8px 24px #497b7b17}.subtitle{text-align:center;color:#597a74;font-size:18px;margin:12px}.nav{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:17px 0}.nav button,.btn,.sound{font-family:inherit;cursor:pointer;border:2px solid #c9e7e2;border-radius:16px;background:#fff;color:#246d65;font-weight:800;min-height:51px;padding:10px;font-size:17px}.nav button.active,.primary{background:#237e72!important;color:white!important;border-color:#237e72!important}.panel{background:#fff;border-radius:25px;padding:22px;box-shadow:0 8px 26px #6b9b9020;min-height:410px}.heading{display:flex;justify-content:space-between;align-items:center;gap:12px}.heading h2{font-size:clamp(23px,4vw,30px);margin:0}.progress{color:#567a75;font-weight:800;white-space:nowrap}.hint{text-align:center;color:#5f7975;font-size:18px;line-height:1.6}.question{font-size:clamp(22px,4.5vw,29px);font-weight:850;text-align:center;margin:15px 0}.photo{display:block;width:min(100%,580px);max-height:310px;object-fit:contain;border-radius:16px;margin:12px auto}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:16px auto;max-width:750px}.tile{border:3px solid #d5e9ef;background:#f4faff;border-radius:20px;min-height:135px;padding:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;cursor:pointer;color:#263e4c;font-family:inherit;font-size:20px;font-weight:800}.tile img{width:100%;height:115px;object-fit:contain}.tile.correct{background:#e7f9ef;border-color:#37a77d}.tile.wrong{background:#fff0ee;border-color:#dc877e}.tile:focus-visible,.btn:focus-visible,.sound:focus-visible{outline:4px solid #ffba4b;outline-offset:2px}.sound{background:#fff4d6;border-color:#f6d99b;color:#78551a;min-height:48px}.center{text-align:center}.actions{display:flex;justify-content:space-between;gap:12px;margin-top:20px}.btn{padding:12px 20px}.btn:disabled{opacity:.45;cursor:not-allowed}.feedback{min-height:40px;text-align:center;font-size:20px;font-weight:800;color:#21795d;padding:9px}.sentence{font-size:clamp(22px,4vw,29px);font-weight:800;background:#f2faf8;border-radius:16px;padding:14px;text-align:center;line-height:1.6}.choice{display:flex;align-items:center;gap:8px;padding:8px;border:2px solid #d6e8e6;border-radius:18px;background:#f8fcfc}.choice .pick{flex:1;border:0;background:transparent;text-align:left;font-size:clamp(18px,3.8vw,24px);font-family:inherit;font-weight:800;padding:13px 8px;cursor:pointer;color:#304a54}.choice .sound{min-width:57px;padding:8px}.choice.correct{border-color:#35a779;background:#e6faef}.choice.wrong{border-color:#e39182;background:#fff0eb}.choices{display:grid;gap:10px;max-width:660px;margin:15px auto}.smallnote{text-align:center;font-size:14px;color:#708983;margin-top:20px}.complete{text-align:center;font-size:60px;margin:30px}.hide{display:none} @media(max-width:580px){.panel{padding:15px}.nav{grid-template-columns:repeat(2,1fr)}.nav button{font-size:16px}.tile{padding:7px;min-height:125px;font-size:17px}.tile img{height:90px}.cover{width:100%;border-radius:14px}.actions .btn{font-size:16px;padding:10px}.choice .pick{padding:10px 5px}}
+
+/* 儿童友好首页：采用确认过的浅蓝浅绿、六色卡片风格 */
+body{background:radial-gradient(ellipse at 8% 6%,#e4f7ff 0%,transparent 44%),radial-gradient(ellipse at 95% 12%,#effbe6 0%,transparent 48%),linear-gradient(#f9fffb,#f8fff7)}
+main{max-width:1160px;padding:20px 24px 80px}
+.top{margin:0 0 20px}
+.back{border-radius:28px;border-color:#b5dbc6;box-shadow:0 4px 10px #476b5a1b;background:#fff;color:#176744;padding:8px 17px}
+.hero{display:grid;grid-template-columns:1.04fr 1fr;align-items:center;gap:30px;max-width:none;min-height:240px;margin:8px 0 26px}
+.hero-copy{padding:8px 4px}
+.eyebrow{display:inline-block;background:linear-gradient(90deg,#fff0b9,#e6f8df);border-radius:30px;padding:9px 16px;color:#1d6b45;font-weight:900;font-size:clamp(15px,2vw,20px)}
+.hero h1{font-size:clamp(30px,4.3vw,53px);line-height:1.2;letter-spacing:1px;color:#113f4b;margin:18px 0 12px;font-weight:900}
+.hero h1:after{content:"";display:block;width:92%;height:8px;background:#ffda3e;border-radius:10px;margin-top:7px}
+.hero p{font-size:clamp(16px,1.8vw,20px);line-height:1.7;color:#40575b;margin:0}
+.hero-art{width:100%;max-height:240px;object-fit:contain;border-radius:24px;filter:drop-shadow(0 6px 8px #5a85691c)}
+.nav{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:22px 0 28px}
+.nav button{position:relative;min-height:98px;text-align:left;padding:15px 52px 15px 66px;border-width:2px;border-radius:23px;font-size:clamp(17px,2.2vw,23px);color:#123e4b;box-shadow:0 6px 10px #58736a18;transition:transform .12s,box-shadow .12s}
+.nav button:hover{transform:translateY(-2px);box-shadow:0 8px 14px #58736a2a}
+.nav button:before{content:attr(data-icon);position:absolute;left:15px;top:50%;transform:translateY(-50%);font-size:34px}
+.nav button:after{content:"▶";position:absolute;right:13px;top:50%;transform:translateY(-50%);display:grid;place-items:center;width:30px;height:30px;border-radius:50%;color:white;background:var(--accent);font-size:15px}
+.nav button:nth-child(1){--accent:#fb7b2d;background:#fff2e8;border-color:#ffbd91}
+.nav button:nth-child(2){--accent:#1cb7e7;background:#eaf9ff;border-color:#80d9f6}
+.nav button:nth-child(3){--accent:#76bf38;background:#f0fbe8;border-color:#b0e388}
+.nav button:nth-child(4){--accent:#a457e9;background:#f6efff;border-color:#d3a8ff}
+.nav button:nth-child(5){--accent:#f15b96;background:#fff0f6;border-color:#ffb5d2}
+.nav button:nth-child(6){--accent:#ffb600;background:#fffbed;border-color:#ffdf7a}
+.nav button.active{background:var(--accent)!important;border-color:var(--accent)!important;color:white!important}
+.nav button.active:after{background:white;color:var(--accent)}
+.panel{border:2px solid #e2f0e9}
+@media(max-width:760px){
+ main{padding:15px 14px 50px}
+ .hero{grid-template-columns:1fr;gap:10px;margin-bottom:16px}
+ .hero-copy{padding:0}
+ .hero h1{margin:13px 0 8px}
+ .hero-art{max-height:185px}
+ .nav{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ .nav button{min-height:78px;padding:12px 35px 12px 47px;font-size:16px;border-radius:17px}
+ .nav button:before{left:10px;font-size:25px}
+ .nav button:after{right:8px;width:24px;height:24px;font-size:12px}
+}
+@media(max-width:390px){.nav button{font-size:15px;padding-left:42px}.nav button:before{font-size:22px}}
+
+/* 首页最终版：六个紧凑按钮，真实草地背景 */
+body{background:radial-gradient(ellipse at 9% 8%,#e3f7ff 0%,transparent 52%),radial-gradient(ellipse at 92% 15%,#edfbe7 0%,transparent 50%),#f8fffc;min-height:100vh;position:relative}
+body:before{content:"";position:fixed;bottom:0;left:0;right:0;height:155px;background:url('assets/grass-footer.svg') bottom center/100% 100% no-repeat;pointer-events:none;z-index:0}
+main{position:relative;z-index:1;max-width:1480px;padding:18px 24px 170px}
+.hero{min-height:0;max-width:1200px;margin:6px auto 20px;gap:26px}
+.hero h1{font-size:clamp(30px,3.7vw,48px);margin:10px 0 12px}
+.hero h1:after{display:none!important;content:none!important}
+.hero-art{max-height:205px}
+.nav{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:18px auto 23px;max-width:940px}
+.nav button{min-height:56px;padding:8px 33px 8px 43px;border-radius:16px;font-size:16px;white-space:nowrap;text-align:center;box-shadow:0 4px 9px #58736a1b}
+.nav button:before{left:10px;font-size:22px}
+.nav button:after{right:6px;width:22px;height:22px;font-size:11px}
+.panel{max-width:1040px;margin:0 auto}
+@media(max-width:1120px){.nav{grid-template-columns:repeat(3,minmax(0,1fr))}.nav button{font-size:16px;min-height:56px}}
+@media(max-width:650px){main{padding:14px 12px 125px}.hero{grid-template-columns:1fr;gap:8px}.hero-art{max-height:150px}.nav{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.nav button{min-height:54px;font-size:14px;padding:7px 25px 7px 32px}.nav button:before{font-size:21px;left:7px}.nav button:after{right:5px;width:20px;height:20px}.hero h1{font-size:32px}body:before{height:110px}}
+
+/* 放大四个看图答题模块的选项插画 */
+.grid{max-width:1040px;gap:18px}
+.tile{min-height:230px;padding:14px;font-size:22px}
+.tile img{height:205px;max-width:100%;object-fit:contain}
+/* 上一题与下一题保持并排、触屏友好 */
+.actions{align-items:center;flex-wrap:wrap}
+.actions .btn{min-width:125px}
+@media(max-width:580px){.grid{gap:10px}.tile{min-height:175px;padding:7px;font-size:18px}.tile img{height:150px}.actions{gap:8px}.actions .btn{min-width:0;flex:1;padding:10px 5px;font-size:14px}}
+/* 朗读按钮紧跟对应词语、句子，不再单独占一行 */
+.inline-reading{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
+.inline-reading .sound,.choice .sound{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;margin:0;padding:7px 11px;min-width:42px;min-height:40px;border-radius:12px;vertical-align:middle;font-size:17px}
+.choice{display:flex;align-items:center;gap:8px}
+.choice .pick{flex:1;min-width:0}
+@media(max-width:580px){.inline-reading{gap:6px}.inline-reading .sound,.choice .sound{padding:7px 9px;min-width:40px;min-height:40px}}
+</style></head><body><main><div class="top"><a class="back" href="../index.html">🏠 返回学习乐园</a></div>
+<header class="hero">
+  <div class="hero-copy">
+    <div class="eyebrow">👧🏻👦🏻👧🏻 中文启蒙 · 职业主题</div>
+    <h1>各种各样的职业</h1>
+    <p>认识不同的职业，看看他们做什么，学说相关的中文！</p>
+  </div>
+  <img class="hero-art" src="assets/hero-professions.jpg" alt="医生、老师、警察和厨师的职业插画">
+</header>
+<nav class="nav" id="nav" aria-label="选择复习游戏"></nav>
+<section class="panel" id="panel" aria-live="polite"></section><p class="smallnote">每次练习5～10分钟就好啦！可以反复听，慢慢学。</p></main><div hidden aria-hidden="true" id="tts-source"><span data-tts-text="答对啦，你真棒！"></span><span data-tts-text="再想一想，试试看！"></span><span data-tts-text="医生"></span><span data-tts-text="医生，给病人看病。"></span><span data-tts-text="护士"></span><span data-tts-text="护士，照顾病人。"></span><span data-tts-text="老师"></span><span data-tts-text="老师，教小朋友学习。"></span><span data-tts-text="厨师"></span><span data-tts-text="厨师，做好吃的饭菜。"></span><span data-tts-text="理发师"></span><span data-tts-text="理发师，剪头发。"></span><span data-tts-text="飞行员"></span><span data-tts-text="飞行员，开飞机。"></span><span data-tts-text="消防员"></span><span data-tts-text="消防员，救火、救人。"></span><span data-tts-text="警察"></span><span data-tts-text="警察，抓坏人，保护大家。"></span><span data-tts-text="司机"></span><span data-tts-text="司机，开车。"></span><span data-tts-text="演员"></span><span data-tts-text="演员，演电影、演电视。"></span><span data-tts-text="歌唱家"></span><span data-tts-text="歌唱家，唱歌。"></span><span data-tts-text="运动员"></span><span data-tts-text="运动员，爱运动，认真练习，参加比赛。"></span><span data-tts-text="给病人看病，是谁的工作？"></span><span data-tts-text="照顾病人，是谁的工作？"></span><span data-tts-text="教小朋友学习，是谁的工作？"></span><span data-tts-text="做好吃的饭菜，是谁的工作？"></span><span data-tts-text="剪头发，是谁的工作？"></span><span data-tts-text="开飞机，是谁的工作？"></span><span data-tts-text="救火、救人，是谁的工作？"></span><span data-tts-text="抓坏人，保护大家，是谁的工作？"></span><span data-tts-text="开车，是谁的工作？"></span><span data-tts-text="我给病人看病，还会检查身体。"></span><span data-tts-text="我照顾病人，帮助他们恢复健康。"></span><span data-tts-text="我教小朋友读书、画画。"></span><span data-tts-text="我做好吃的饭菜。"></span><span data-tts-text="我用剪刀和梳子给大家剪头发。"></span><span data-tts-text="我开飞机，在天空中飞。"></span><span data-tts-text="着火了，我会去救火。"></span><span data-tts-text="我抓坏人，保护大家。"></span><span data-tts-text="我每天开公交车，送大家去不同的地方。"></span><span data-tts-text="小朋友迷路了，谁来帮忙？"></span><span data-tts-text="房子着火了，谁来帮忙？"></span><span data-tts-text="小朋友摔倒受伤了，谁来照顾他？"></span><span data-tts-text="小朋友生病了，谁给他看病？"></span><span data-tts-text="头发太长了，谁来剪头发？"></span><span data-tts-text="我想坐公交车，谁来开车？"></span><span data-tts-text="西瓜怎么样？"></span><span data-tts-text="西瓜又大又甜。"></span><span data-tts-text="西瓜又大又小。"></span><span data-tts-text="西瓜又冷又热。"></span><span data-tts-text="小猫怎么样？"></span><span data-tts-text="小猫又小又可爱。"></span><span data-tts-text="小猫又大又小。"></span><span data-tts-text="小猫又黑又冷。"></span><span data-tts-text="小女孩在干什么？"></span><span data-tts-text="小女孩又唱又跳。"></span><span data-tts-text="小女孩又吃又睡。"></span><span data-tts-text="小女孩又哭又笑。"></span><span data-tts-text="小男孩怎么了？"></span><span data-tts-text="小男孩又累又饿。"></span><span data-tts-text="小男孩又唱又跳。"></span><span data-tts-text="小男孩又大又甜。"></span><span data-tts-text="外面怎么样？"></span><span data-tts-text="外面又黑又冷。"></span><span data-tts-text="外面又大又甜。"></span><span data-tts-text="外面又唱又跳。"></span><span data-tts-text="蛋糕怎么样？"></span><span data-tts-text="蛋糕又大又好吃。"></span><span data-tts-text="蛋糕又小又冷。"></span><span data-tts-text="蛋糕又黑又累。"></span></div><script src="tts-manifest.js"></script><script>
+const jobs=[
+{id:'doctor',name:'医生',work:'给病人看病',slide:13},
+{id:'nurse',name:'护士',work:'照顾病人',slide:14},
+{id:'teacher',name:'老师',work:'教小朋友学习',slide:15},
+{id:'chef',name:'厨师',work:'做好吃的饭菜',slide:16},
+{id:'hairdresser',name:'理发师',work:'剪头发',slide:17},
+{id:'pilot',name:'飞行员',work:'开飞机',slide:18},
+{id:'firefighter',name:'消防员',work:'救火、救人',slide:19},
+{id:'police',name:'警察',work:'抓坏人，保护大家',slide:20},
+{id:'driver',name:'司机',work:'开车',slide:21},
+{id:'actor',name:'演员',work:'演电影、演电视',slide:22},
+{id:'singer',name:'歌唱家',work:'唱歌',slide:23},
+{id:'athlete',name:'运动员',work:'爱运动，认真练习，参加比赛',slide:24}];
+const mainJobs=jobs.filter(x=>!['actor','singer','athlete'].includes(x.id));
+const tabs=[['learn','认识职业'],['listen','听音找图'],['match','职业做什么'],['guess','猜猜我是谁'],['help','谁来帮帮我'],['sentence','又……又……']];
+const tabIcons=['📖','🔊','💡','🔎','💬','🧩'];
+const nav=document.getElementById('nav'),panel=document.getElementById('panel');let tab='learn',idx=0,locked=false,questions=[];
+const shuffle=a=>[...a].sort(()=>Math.random()-.5);const jBy=id=>jobs.find(j=>j.id===id);const safe=s=>String(s).replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;');
+let currentAudio=null;function tts(s){const map=window.TTS_AUDIO||window.TTS_MANIFEST||{};let p=map[s];if(p&&typeof p==='object')p=p.path||p.src||p.url;if(p){if(currentAudio)currentAudio.pause();currentAudio=new Audio(p);currentAudio.play().catch(()=>{});return}const f=document.getElementById('feedback');if(f)f.textContent='🔊 语音尚未生成，请先运行TTS流程。'}
+function speak(s,label='🔊 听一听'){return `<button type="button" class="sound" data-tts-text="${safe(s)}" onclick='tts(${JSON.stringify(s)})'>${label}</button>`}
+function img(j){return `<img src="assets/${j.id}.jpg" alt="${j.name}" loading="lazy">`}
+function option(j){return `<button class="tile" data-answer="${j.id}" onclick="answer('${j.id}')">${img(j)}<span>${tab==='listen'?'':j.name}</span></button>`}
+function navigation(){nav.innerHTML=tabs.map(([id,name],i)=>`<button data-icon="${tabIcons[i]}" class="${id===tab?'active':''}" onclick="go('${id}')">${name}</button>`).join('')}
+function go(id){tab=id;idx=0;locked=false;questions=makeQuestions(id);navigation();render();document.querySelector('.nav').scrollIntoView({block:'start',behavior:'smooth'})}
+function makeQuestions(id){if(id==='listen')return shuffle(mainJobs).slice(0,8).map(j=>({answer:j.id,text:j.name}));if(id==='match')return shuffle(mainJobs).slice(0,7).map(j=>({answer:j.id,text:j.work+'，是谁的工作？'}));if(id==='guess')return shuffle([
+['doctor','我给病人看病，还会检查身体。'],['nurse','我照顾病人，帮助他们恢复健康。'],['teacher','我教小朋友读书、画画。'],['chef','我做好吃的饭菜。'],['hairdresser','我用剪刀和梳子给大家剪头发。'],['pilot','我开飞机，在天空中飞。'],['firefighter','着火了，我会去救火。'],['police','我抓坏人，保护大家。'],['driver','我每天开公交车，送大家去不同的地方。']]).slice(0,8).map(([answer,text])=>({answer,text}));if(id==='help')return shuffle([
+{answer:'police',text:'小朋友迷路了，谁来帮忙？',emoji:'🧒🧭'},
+{answer:'firefighter',text:'房子着火了，谁来帮忙？',emoji:'🏠🔥'},
+{answer:'nurse',text:'小朋友摔倒受伤了，谁来照顾他？',emoji:'🩹'},
+{answer:'doctor',text:'小朋友生病了，谁给他看病？',emoji:'🤒'},
+{answer:'hairdresser',text:'头发太长了，谁来剪头发？',emoji:'💇'},
+{answer:'driver',text:'我想坐公交车，谁来开车？',emoji:'🚌'}]);return []}
+function header(name,total){return `<div class="heading"><h2>${name}</h2><span class="progress">${idx+1} / ${total}</span></div>`}
+function footer(){return `<div class="feedback" id="feedback"></div><div class="actions"><button class="btn" onclick="previous()" ${idx===0?'disabled':''}>← 上一题</button><button class="btn primary" id="next" onclick="next()" disabled>下一题 →</button></div>`}
+function render(){if(tab==='learn')return learn();if(tab==='sentence')return sentence();let q=questions[idx];if(!q)return finish();let opts=shuffle([jBy(q.answer),...shuffle(mainJobs.filter(j=>j.id!==q.answer)).slice(0,3)]);let title=Object.fromEntries(tabs)[tab];panel.innerHTML=header(title,questions.length)+`<p class="hint">${tab==='listen'?'听职业名称，点击正确的图片。':tab==='guess'?'听线索，猜猜是谁。':'听一听，再选一选。'}</p>`+(q.emoji?`<div class="question" style="font-size:65px">${q.emoji}</div>`:'')+(tab==='listen'?`<div class="question inline-reading">${speak(q.text,'🔊 听职业')}</div>`:`<div class="question inline-reading">${safe(q.text)} ${speak(q.text,'🔊')}</div>`)+`<div class="grid">${opts.map(option).join('')}</div>`+footer()}
+function answer(id){if(locked)return;let q=questions[idx],el=document.querySelector(`[data-answer="${id}"]`);if(id===q.answer){locked=true;el.classList.add('correct');document.getElementById('feedback').textContent='🎉 答对啦，你真棒！';document.getElementById('next').disabled=false;tts('答对啦，你真棒！')}else{el.classList.add('wrong');document.getElementById('feedback').textContent='再想一想，试试看！';tts('再想一想，试试看！')}}
+function next(){if(!locked)return;idx++;locked=false;render()}
+function previous(){if(idx<=0)return;idx--;locked=false;render()}
+function learn(){let j=jobs[idx];panel.innerHTML=header('👀 认识职业',jobs.length)+`<p class="hint">看图片，听一听，跟着说一说。</p><img class="photo" src="assets/slide${j.slide}.jpg" alt="${j.name}课堂插画"><div class="question inline-reading">${j.name} ${speak(j.name,'🔊')}</div><p class="sentence inline-reading">${j.name}：${j.work}。 ${speak(j.name+'，'+j.work+'。','🔊')}</p><div class="actions"><button class="btn" onclick="idx=(idx+jobs.length-1)%jobs.length;render()">← 上一个</button><button class="btn primary" onclick="idx=(idx+1)%jobs.length;render()">下一个 →</button></div>`}
+const sentenceQs=[
+{subject:'西瓜',slide:42,question:'西瓜怎么样？',right:'又大又甜',wrong:['又大又小','又冷又热']},
+{subject:'小猫',slide:43,question:'小猫怎么样？',right:'又小又可爱',wrong:['又大又小','又黑又冷']},
+{subject:'小女孩',slide:44,question:'小女孩在干什么？',right:'又唱又跳',wrong:['又吃又睡','又哭又笑']},
+{subject:'小男孩',slide:45,question:'小男孩怎么了？',right:'又累又饿',wrong:['又唱又跳','又大又甜']},
+{subject:'外面',slide:46,question:'外面怎么样？',right:'又黑又冷',wrong:['又大又甜','又唱又跳']},
+{subject:'蛋糕',slide:47,question:'蛋糕怎么样？',right:'又大又好吃',wrong:['又小又冷','又黑又累']},
+{subject:'小女孩',slide:44,question:'看一看，小女孩正在做什么？',right:'又唱又跳',wrong:['又吃又睡','又冷又饿']},
+{subject:'小男孩',slide:45,question:'小男孩现在感觉怎么样？',right:'又累又饿',wrong:['又大又甜','又唱又跳']}];
+function sentence(){let q=sentenceQs[idx];if(!q)return finish();let choices=shuffle([q.right,...q.wrong]);panel.innerHTML=header('💬 又……又……',sentenceQs.length)+`<p class="hint">先看图，再听每个选项，选出合适的句子。</p><img class="photo" src="assets/slide${q.slide}.jpg" alt="${q.subject}"><div class="question inline-reading">${safe(q.question)} ${speak(q.question,'🔊')}</div><div class="choices">${choices.map((c,i)=>`<div class="choice" data-choice="${safe(c)}"><button class="pick" onclick="choose(${i})">${safe(q.subject+c)}。</button>${speak(q.subject+c+'。','🔊')}</div>`).join('')}</div>`+footer()}
+function choose(i){if(locked)return;let q=sentenceQs[idx],el=document.querySelectorAll('.choice')[i],s=el.dataset.choice;if(s===q.right){locked=true;el.classList.add('correct');document.getElementById('feedback').textContent='🎉 答对啦！'+q.subject+q.right+'！';document.getElementById('next').disabled=false;tts(q.subject+q.right+'。')}else{el.classList.add('wrong');document.getElementById('feedback').textContent='再听一听，想一想！';tts('再想一想，试试看！')}}
+function finish(){panel.innerHTML=`<div class="complete">🏆</div><h2 class="center">闯关完成！你真棒！</h2><p class="hint">可以再玩一次，也可以换一个游戏。</p><div class="actions"><button class="btn primary" onclick="go('${tab}')">再玩一次</button><button class="btn" onclick="go('learn')">认识职业</button></div>`}
+navigation();render();
+</script></body></html>
